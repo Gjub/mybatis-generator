@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updateUser</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="row clearfix" style="width: 400px;margin: auto;margin-top: 20px">
+    <div class="col-md-12 column">
+        <form role="form">
+            <div class="form-group">
+                <label>ID:</label><input type="text" class="form-control" id="ID"/>
+            </div>
+            <div class="form-group">
+                <label>用户名称：</label><input type="text" class="form-control" id="username" />
+            </div>
+            <div class="form-group">
+                <label>用户密码：</label><input type="text" class="form-control" id="password" />
+            </div>
+            <div class="form-group">
+                <label>联系电话：</label><input type="text" class="form-control" id="tel" />
+            </div>
+            <button style="width: 100px;" id="updateUser" type="button" class="btn btn-success">修改</button>
+            <button style="margin-left: 20px;width: 100px" id="back" onclick="backuserAll()" type="button" class="btn btn-info">返回</button>
+        </form>
+    </div>
+</div>
+
+</body>
+<script>
+    var arr = new Array(4);
+    arr = localStorage.id.split("-")
+    document.getElementById("ID").value = arr[0]
+    document.getElementById("username").value = arr[1]
+    document.getElementById("password").value = arr[2]
+    document.getElementById("tel").value = arr[3]
+
+    $(document).ready(function () {
+        $("#updateUser").click(function () {
+            var param = {
+                userId: $("#ID").val(),
+                name: $("#username").val(),
+                password: $("#password").val(),
+                tel: $("#tel").val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: "http://49.235.107.34:8081/user/update",
+                data: param,
+                success: function (result) {
+                    if (result.code == 0) {
+                        alert("修改成功")
+                    } else {
+                        alert("修改失败")
+                    }
+                }
+            });
+        });
+    });
+    function backuserAll() {
+        window.location.assign("http://49.235.107.34:8081/userAll.html")
+    }
+</script>
+</html>

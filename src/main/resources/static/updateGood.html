@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>updateGood</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="row clearfix" style="width: 400px;margin: auto;margin-top: 20px">
+        <div class="col-md-12 column">
+            <form role="form">
+                <div class="form-group">
+                    <label>ID:</label><input type="text" class="form-control" id="ID"/>
+                </div>
+                <div class="form-group">
+                    <label>商品名称：</label><input type="text" class="form-control" id="goodsName" />
+                </div>
+                <div class="form-group">
+                    <label>商品描述：</label><input type="text" class="form-control" id="descripe" />
+                </div>
+                <button style="width: 100px;" id="update" type="button" class="btn btn-success">确认</button>
+                <button style="width: 100px; margin-left: 20px" id="back" onclick="backwareHouse()" type="button" class="btn btn-info">返回</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+<script>
+    var arr =new Array(3);
+    arr = localStorage.id.split("-")
+    document.getElementById("ID").value = arr[0]
+    document.getElementById("goodsName").value = arr[1]
+    document.getElementById("descripe").value = arr[2]
+    $(document).ready(function () {
+        $("#update").click(function () {
+            var param = {
+                goodId: $("#ID").val(),
+                goodsName: $("#goodsName").val(),
+                descripe: $("#descripe").val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: "http://49.235.107.34:8081/goods/update",
+                data: param,
+                success: function (result) {
+                    if (result.code === 0) {
+                        alert("修改成功")
+                    } else {
+                        alert("修改失败")
+                    }
+                }
+            });
+        });
+    });
+
+    function backwareHouse() {
+        window.location.assign("http://49.235.107.34:8081/wareHouseAll.html")
+    }
+</script>
+</html>
